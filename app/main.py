@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from .database import get_db
 from .routers import link, user, auth
 from fastapi.middleware.cors import CORSMiddleware
+from . import models
+from .database import engine
 
 
 app = FastAPI()
@@ -16,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# models.Base.metadata.create_all(bind=engine) #used when we are not using alembic to generate tables
+models.Base.metadata.create_all(bind=engine) #used when we are not using alembic to generate tables
 
 app.include_router(link.app)
 app.include_router(user.app)
